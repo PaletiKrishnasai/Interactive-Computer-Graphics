@@ -13,3 +13,9 @@
 
 ### Complex_Shapes
     complex shapes and fonts using basic primitives. 
+
+<hr>
+
+### DDA
+    DDA stands for Digital Differential Analyzer. It is an incremental method of scan conversion of line. 
+    It is primarily a line drawing algorithm.
