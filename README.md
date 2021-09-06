@@ -19,3 +19,8 @@
 ### DDA
     DDA stands for Digital Differential Analyzer. It is an incremental method of scan conversion of line. 
     It is primarily a line drawing algorithm.
+    
+<hr>
+
+### Bresenham
+    Brute force , DDA, Bresenham line drawing algorithms and comparing Mean Square Error to verify the point accuracy.
