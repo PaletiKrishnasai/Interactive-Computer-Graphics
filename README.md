@@ -24,3 +24,8 @@
 
 ### Bresenham
     Brute force , DDA, Bresenham line drawing algorithms and comparing Mean Square Error to verify the point accuracy.
+
+<hr>
+
+### Cicle_MCD
+    Mid-point Cicle Drawing and Bresenham line drawing algorithms.
