@@ -29,3 +29,8 @@
 
 ### Cicle_MCD
     Mid-point Cicle Drawing and Bresenham line drawing algorithms.
+    
+<hr>
+
+### Ellipse_MED
+    Mid-point Ellipse Drawing Algorithm.
