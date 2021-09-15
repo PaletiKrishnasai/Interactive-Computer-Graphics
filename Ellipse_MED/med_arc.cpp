@@ -29,7 +29,7 @@ void myinit(void);
 void Pixel(float x, float y);
 void MED(ellipse cir);
 void BLD(float point1[2], float point2[2]);
-int checkPoint(float x, float y);
+int AngleCheck(float x, float y);
 void drawArc(float c[2], float x, float y);
 void arc_med();
 
@@ -189,50 +189,107 @@ void BLD(float point1[2], float point2[2])
 	}
 }
 
-int checkPoint(float x, float y)
+int AngleCheck(float x, float y)
 {
-    float tempalpha = alpha;
-    if (alpha < 0)
-        tempalpha += 360;
-    float lowerAngle = tempalpha;
-    float upperAngle = tempalpha + beta;
-    if (beta < 0)
-    {
-        upperAngle = tempalpha + 360;
-        lowerAngle = beta + 360;
-    }
+   float lowerAngle, upperAngle;
 
     float pointAngle = (180 / M_PI) * atan2(y, x);
     if (pointAngle < 0)
-        pointAngle += 360; //making atan2 range from 0 to 2PI
+        pointAngle += 360;
 
-    if (upperAngle > 360)
+    if (alpha >= 0 && beta >= 0)
     {
-        upperAngle -= 360;
-        if (pointAngle >= lowerAngle || pointAngle <= upperAngle)
-            return 1;
+        lowerAngle = alpha;
+        upperAngle = alpha + beta;
+        if (upperAngle > 360)
+        {
+            upperAngle -= 360; // rollover
+            if (pointAngle >= lowerAngle || pointAngle <= upperAngle)
+                return 1;
+            else
+                return 0;
+        }
         else
-            return 0;
+        {
+            if (pointAngle >= lowerAngle && pointAngle <= upperAngle)
+                return 1;
+            else
+                return 0;
+        }
     }
-    else
+    else if (alpha < 0 && beta > 0)
     {
-        if (pointAngle >= lowerAngle && pointAngle <= upperAngle)
-            return 1;
+        lowerAngle = alpha + 360; //making it positive
+        upperAngle = lowerAngle + beta;
+        if (upperAngle > 360)
+        {
+            upperAngle -= 360;
+            if (pointAngle >= lowerAngle || pointAngle <= upperAngle)
+                return 1;
+            else
+                return 0;
+        }
         else
-            return 0;
+        {
+            if (pointAngle >= lowerAngle && pointAngle <= upperAngle)
+                return 1;
+            else
+                return 0;
+        }
     }
+    else if (alpha >= 0 && beta < 0)
+    {
+        upperAngle = alpha;
+        lowerAngle = alpha + beta; //less than upper, maybe -ve
+        if (lowerAngle < 0)
+        {
+            lowerAngle += 360;
+            if (pointAngle >= lowerAngle || pointAngle <= upperAngle)
+                return 1;
+            else
+                return 0;
+        }
+        else
+        {
+            if (pointAngle >= lowerAngle && pointAngle <= upperAngle)
+                return 1;
+            else
+                return 0;
+        }
+    }
+    else //both negative
+    {
+        upperAngle = alpha + 360;          // >0
+        lowerAngle = 360 + (alpha + beta); // <360
+        if (lowerAngle < 0)
+        {
+            lowerAngle += 360;
+            if (pointAngle >= lowerAngle || pointAngle <= upperAngle)
+                return 1;
+            else
+                return 0;
+        }
+        else
+        {
+            if (pointAngle >= lowerAngle && pointAngle <= upperAngle)
+                return 1;
+            else
+                return 0;
+        }
+    }
+    return 0;
 }
 
 void drawArc(float c[2], float x, float y)
 {
 
-    if (checkPoint(x, y) == 1)
+    if (AngleCheck(x, y) == 1)
         Pixel(c[0] + x, c[1] + y); //Q1
-    if (checkPoint(-x, y) == 1)
+    if (AngleCheck(-x, y) == 1)
         Pixel(c[0] - x, c[1] + y); //Q2
-    if (checkPoint(-x, -y) == 1)
+    if (AngleCheck(-x, -y) == 1)
         Pixel(c[0] - x, c[1] - y); //Q3
-    if (checkPoint(x, -y) == 1)
+    if (AngleCheck(x, -y) == 1)
         Pixel(c[0] + x, c[1] - y); //Q4
 }
 
@@ -269,10 +326,10 @@ int main(int argc, char **argv)
     
    // cout<<"enter alpha"<<endl;
    // cin>>alpha;
-    alpha = rand() % 360;
+    alpha = -360 + rand() % 720; // to get the -2PI to 2PI range
    // cout<<"enter Beta"<<endl;
   //  cin>>beta;
-    beta = rand() % 360;
+    beta = -360 + rand() % 720;  // to get the -2PI to 2PI range
   //  cout<<"enter horizontal"<<endl;
    // cin>>horizontal_axis;
     horizontal_axis = rand() % 500;
