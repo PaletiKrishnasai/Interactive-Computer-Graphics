@@ -34,3 +34,10 @@
 
 ### Ellipse_MED
     Mid-point Ellipse Drawing Algorithm.
+<hr>
+### Parabola and Hyperbola
+    Mid-point Parabola and Hyperbola Drawing Algorithm.
+<hr>
+### Clipping and Clipping2
+    Clipping and Region filling algorithms.
+ 
